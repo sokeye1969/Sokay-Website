@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOKAI — Consultoría Tecnológica y Servicios TI</title>
+  <link rel="icon" type="image/png" href="images/sokai.png">
+  <style>
+    /* ═══════════════════════════════════════════════
+       VARIABLES DE COLOR Y FUENTE
+       Para cambiar colores edita solo esta sección
+    ═══════════════════════════════════════════════ */
+    :root {
+      --purple:        #5c2082;   /* morado principal */
+      --purple-dark:   #3d1257;   /* morado oscuro (hero, footer) */
+      --purple-mid:    #7b3da5;   /* morado medio */
+      --green:         #b5d134;   /* verde/lima accent */
+      --green-dark:    #8aab1a;
+      --white:         #ffffff;
+      --text-muted:    rgba(255,255,255,0.82);
+      --light-bg:      #f3eff8;   /* fondo claro sección clientes */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: #fff;
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════
+       NAVEGACIÓN
+    ═══════════════════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: var(--purple-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 3rem;
+      border-bottom: 2px solid var(--purple-mid);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-brand-text { display: flex; flex-direction: column; }
+    .nav-brand-text .brand-name {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .nav-brand-text .brand-sub {
+      font-size: 0.62rem;
+      color: var(--green);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 110px 2rem 5rem;
+      background:
+        linear-gradient(135deg, rgba(61,18,87,0.85) 0%, rgba(92,32,130,0.85) 55%, rgba(123,61,165,0.85) 100%),
+        url('images/fondosokai.jpeg') center/cover no-repeat;
+      overflow: hidden;
+    }
+
+    #heroCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.3rem 1.1rem;
+      border-radius: 2rem;
+      margin-bottom: 1.6rem;
+      background: rgba(181,209,52,0.08);
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       BOTONES
+    ═══════════════════════════════════════════════ */
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, transform 0.18s;
+    }
+    .btn-green {
+      background: var(--green);
+      color: #1a1a1a;
+    }
+    .btn-green:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--green);
+    }
+    .btn-outline:hover {
+      background: var(--green);
+      color: #1a1a1a;
+    }
+
+    /* ═══════════════════════════════════════════════
+       UTILIDADES
+    ═══════════════════════════════════════════════ */
+    .container { max-width: 1120px; margin: 0 auto; }
+    section { padding: 5.5rem 2rem; }
+
+    .section-title {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* ═══════════════════════════════════════════════
+       SERVICIOS
+    ═══════════════════════════════════════════════ */
+    #services { background: var(--purple); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .service-card {
+      padding: 3rem 2.2rem;
+      text-align: center;
+      border-right: 1px dashed rgba(255,255,255,0.22);
+    }
+    .service-card:last-child { border-right: none; }
+
+    .service-card h3 {
+      color: var(--green);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      line-height: 1.35;
+    }
+    .service-card p {
+      font-size: 0.875rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PROBLEMAS QUE RESOLVEMOS
+    ═══════════════════════════════════════════════ */
+    #problems { background: #fff; padding: 0; color: #1a1a1a; }
+
+    .problems-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      min-height: 620px;
+    }
+
+    /* IMAGEN: coloca tu imagen en images/blocks-image.jpg */
+    .problems-img {
+      background: #c0b0d8 url('images/blocks-image.jpg') center/cover no-repeat;
+    }
+
+    .problems-text {
+      background: var(--purple);
+      color: var(--white);
+      padding: 4.5rem 3.5rem;
+    }
+
+    .problems-text h2 {
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      font-weight: 900;
+      margin-bottom: 2.5rem;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.2rem 2rem;
+    }
+
+    .prob-item .num {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .prob-item h4 {
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+      line-height: 1.4;
+    }
+    .prob-item p {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* ═══════════════════════════════════════════════
+       QUIÉN SOY
+    ═══════════════════════════════════════════════ */
+    #about { background: var(--purple-dark); padding: 0; }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+
+    .about-text {
+      padding: 5rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .about-text h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+    .about-text .who-name {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .about-text .big-num {
+      font-size: clamp(3.2rem, 8vw, 5.5rem);
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .about-text p {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+    .about-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOTO: coloca tu imagen en images/rodrigo-photo.jpg */
+    .about-img {
+      background: #6a4090 url('images/rodrigo-photo.jpg') center/cover no-repeat;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PARTNERS
+    ═══════════════════════════════════════════════ */
+    #partners { background: #ffffff; color: #1a1a1a; }
+    #partners .section-title { color: #1a1a1a; }
+
+    .partners-slider {
+      position: relative;
+      border: 1px solid #e0d4ee;
+      border-radius: 10px;
+      padding: 3.5rem 4rem;
+      overflow: hidden;
+    }
+
+    .partner-slide { display: none; text-align: center; }
+    .partner-slide.active { display: block; }
+
+    .partner-logo-name {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+    }
+    /* Si el partner tiene logo imagen, usa esto:
+       <img src="images/forrester-logo.png" class="partner-logo-img" alt="Forrester"> */
+    .partner-logo-img {
+      max-height: 60px;
+      max-width: 220px;
+      object-fit: contain;
+      margin-bottom: 1.5rem;
+    }
+
+    .partner-slide p {
+      max-width: 700px;
+      margin: 0 auto 0.9rem;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: #444;
+    }
+
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--purple);
+      color: white;
+      border: none;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+      transition: background 0.2s;
+    }
+    .slider-btn:hover { background: var(--purple-mid); }
+    .slider-btn.prev { left: 10px; }
+    .slider-btn.next { right: 10px; }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.8rem;
+    }
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #ccc;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .dot.active { background: var(--purple); }
+
+    /* ═══════════════════════════════════════════════
+       CLIENTES (NUEVA SECCIÓN)
+       ────────────────────────────────────────────
+       Para agregar un cliente:
+         1. Pon su logo en la carpeta images/
+         2. Copia uno de los <div class="client-card"> de abajo
+         3. Reemplaza el <span> por <img src="images/TU-LOGO.png" alt="Nombre">
+    ═══════════════════════════════════════════════ */
+    #clients { background: var(--light-bg); }
+    #clients .section-title { color: var(--purple); }
+
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .client-card {
+      background: white;
+      border: 1px solid #e0d4ee;
+      border-radius: 8px;
+      min-height: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem 1rem;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .client-card:hover {
+      box-shadow: 0 4px 22px rgba(92,32,130,0.12);
+      border-color: var(--purple-mid);
+    }
+    .client-card img {
+      max-width: 130px;
+      max-height: 55px;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0.6;
+      transition: filter 0.25s, opacity 0.25s;
+    }
+    .client-card:hover img {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+    .client-card span {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #888;
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONTACTO
+    ═══════════════════════════════════════════════ */
+    #contact { background: var(--purple); }
+
+    .contact-lead {
+      max-width: 680px;
+      margin: 0 auto 2.8rem;
+      text-align: center;
+    }
+    .contact-lead h2 {
+      font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .contact-form-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.13);
+      border-radius: 10px;
+      padding: 2.5rem;
+    }
+    .contact-form-box h3 {
+      text-align: center;
+      letter-spacing: 0.12em;
+      font-size: 1rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .form-group.full { grid-column: 1 / -1; }
+
+    .form-group label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.7);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.92);
+      border: none;
+      border-radius: 4px;
+      padding: 0.62rem 0.85rem;
+      font-size: 0.88rem;
+      color: #1a1a1a;
+      font-family: inherit;
+      width: 100%;
+    }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    #formMsg {
+      font-size: 0.85rem;
+      color: var(--green);
+      display: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      background: var(--purple-dark);
+      color: var(--text-muted);
+      padding: 2.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-top: 2px solid var(--purple);
+    }
+    .footer-info p { font-size: 0.84rem; line-height: 1.9; }
+    .footer-info p:first-child {
+      font-weight: 700;
+      color: var(--green);
+      font-size: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      opacity: 0.45;
+      text-align: right;
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      nav { padding: 0.7rem 1.5rem; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--purple-dark); padding: 1rem 2rem 1.5rem; gap: 1rem; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: block; }
+
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px dashed rgba(255,255,255,0.2); }
+
+      .problems-wrap { grid-template-columns: 1fr; }
+      .problems-img { min-height: 280px; }
+      .problems-text { padding: 3rem 1.8rem; }
+
+      .about-wrap { grid-template-columns: 1fr; }
+      .about-text { padding: 3.5rem 1.8rem; }
+      .about-img { min-height: 320px; }
+
+      .partners-slider { padding: 2.5rem 3rem; }
+
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-copy { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      .problems-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVEGACIÓN
+═══════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#hero" class="nav-brand">
+    <img src="images/sokai.png" alt="SOKAI" width="46" height="46">
+    <div class="nav-brand-text">
+      <span class="brand-name">SOKAI</span>
+      <span class="brand-sub">Consultoría Tecnológica y Servicios TI</span>
+    </div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#problems">Soluciones</a></li>
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#clients">Clientes</a></li>
+    <li><a href="#partners">Partners</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menú">&#9776;</button>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-content">
+    <!-- EDITAR: Pill tagline -->
+    <div class="hero-pill">Innovación &nbsp;·&nbsp; Excelencia &nbsp;·&nbsp; Adaptabilidad</div>
+    <!-- EDITAR: Título principal -->
+    <h1 class="hero-title">Construyendo Futuros<br>Digitales</h1>
+    <!-- EDITAR: Subtítulo -->
+    <p class="hero-sub">Nuestro Compromiso Contigo</p>
+    <a href="#contact" class="btn btn-green">Conversemos →</a>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     SERVICIOS
+     EDITAR: Cambia los títulos y textos de cada tarjeta
+═══════════════════════════════════════════ -->
+<section id="services">
+  <div class="container">
+    <div class="services-grid">
+
+      <div class="service-card">
+        <h3>Transformación<br>Digital</h3>
+        <p>Muchos retailers luchan por adaptarse a la rápida evolución del panorama digital. La transformación digital implica integrar tecnologías como el comercio electrónico, la analítica de datos y la inteligencia artificial, para mejorar la experiencia del cliente, optimizar las operaciones y mantenerse competitivos en un mercado cada vez más digitalizado.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>Gestión de la Experiencia<br>del Cliente</h3>
+        <p>En un entorno minorista cada vez más competitivo, la experiencia del cliente se ha convertido en un diferenciador clave. Los retailers enfrentan el desafío de ofrecer experiencias personalizadas, coherentes y atractivas en todos los canales de venta. Esto requiere una gestión eficaz de los datos del cliente, la implementación de tecnologías de personalización y la mejora continua de los procesos de atención al cliente.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>Optimización de Operaciones<br>y Eficiencia</h3>
+        <p>Los retailers también se enfrentan al desafío de optimizar sus operaciones y mejorar su eficiencia en un entorno de costos en constante aumento. Esto implica la implementación de tecnologías y sistemas de gestión que mejoren la cadena de suministro, la gestión de inventario, la planificación de la demanda y otros aspectos clave de la operación minorista.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PROBLEMAS QUE RESOLVEMOS
+     EDITAR: Los 4 bloques de problema/solución
+═══════════════════════════════════════════ -->
+<section id="problems">
+  <div class="problems-wrap">
+    <!-- Imagen izquierda: reemplaza images/blocks-image.jpg con tu foto -->
+    <div class="problems-img" role="img" aria-label="Bloques con iconos de negocio"></div>
+
+    <div class="problems-text">
+      <h2>¿Qué Problemas<br>Resolvemos?</h2>
+      <div class="problems-grid">
+
+        <div class="prob-item">
+          <div class="num">01</div>
+          <h4>Diagnosticamos el estado de las Tecnologías de tu empresa</h4>
+          <p>Un diagnóstico de TI es esencial para asegurar la eficacia y fiabilidad de tus aplicaciones empresariales y procesos. Proporciona una evaluación exhaustiva de tus sistemas y flujos de trabajo, identificando áreas de mejora y oportunidades para optimizar tus operaciones. Este paso inicial es fundamental para una transformación digital efectiva.</p>
+        </div>
+
+        <div class="prob-item">
+          <div class="num">02</div>
+          <h4>Creamos tu hoja de ruta Digital</h4>
+          <p>Una hoja de ruta tecnológica es la brújula que guía a las empresas hacia el éxito en un mundo digital en constante cambio. Proporciona una visión estratégica clara y ayuda a tomar decisiones informadas para aprovechar al máximo las oportunidades tecnológicas y enfrentar los desafíos con confianza.</p>
+        </div>
+
+        <div class="prob-item">
+          <div class="num">03</div>
+          <h4>Diseñamos y habilitamos tu ecosistema Omnicanal</h4>
+          <p>Convertimos tu visión omnicanal en una realidad tangible. Con amplia experiencia en los principales retailers del país y prestigiosas consultoras a nivel mundial, poseemos un profundo entendimiento y la capacidad para diseñar y orquestar una integración fluida, brindando una experiencia excepcional al cliente en cada punto de contacto.</p>
+        </div>
+
+        <div class="prob-item">
+          <div class="num">04</div>
+          <h4>Analizamos y proponemos el mejor modelo de operación de tu equipo de tecnología</h4>
+          <p>Te ofrecemos un enfoque integral para diseñar y optimizar la organización de tu equipo de tecnología. Incluye análisis detallado de la gestión de costos para maximizar la eficiencia y el rendimiento. Además, proporcionamos mentoría personalizada para fortalecer las habilidades de tu equipo interno.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     QUIÉN SOY
+     EDITAR: Texto de Rodrigo, LinkedIn URL, foto
+═══════════════════════════════════════════ -->
+<section id="about">
+  <div class="about-wrap">
+
+    <div class="about-text">
+      <h2>¿Quién soy?</h2>
+      <p class="who-name">Soy Rodrigo Cortés Pinto</p>
+      <div class="big-num">32</div>
+      <p>años de experiencia en Retail y QSR en múltiples roles ejecutivos desempeñados en los líderes de la industria local y regional.</p>
+      <p>Activo promotor de los procesos de transformación digital, ecommerce, desarrollo de estrategia omnicanal, cadena de suministro y medios de pago digitales.</p>
+      <p>Vasta experiencia en proyectos de implementación de plataformas ERP, WMS, CRM, Ecommerce, OMS, POS, Marketing digital, Core de Tarjetas Crédito, etc.</p>
+      <p>Constructor de grandes equipos que lo pasan bien y lo hacen bien.</p>
+
+      <div class="about-actions">
+        <!-- EDITAR: Cambia la URL de LinkedIn -->
+        <a href="https://www.linkedin.com/in/rodrigocortespinto" target="_blank" rel="noopener" class="btn btn-green">LinkedIn →</a>
+        <!-- Opcional: QR image
+        <img src="images/qr-linkedin.png" alt="QR LinkedIn" style="width:80px;height:80px;border-radius:6px;"> -->
+      </div>
+    </div>
+
+    <!-- Foto: reemplaza images/rodrigo-photo.jpg con tu foto -->
+    <div class="about-img" role="img" aria-label="Fotografía de Rodrigo Cortés Pinto"></div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PARTNERS
+     EDITAR: Agrega más slides copiando el bloque
+     <div class="partner-slide"> ... </div>
+═══════════════════════════════════════════ -->
+<section id="partners">
+  <div class="container">
+    <h2 class="section-title" style="color:#1a1a1a;">Nuestros Partners</h2>
+
+    <div class="partners-slider">
+      <button class="slider-btn prev" onclick="moveSlide(-1)" aria-label="Anterior">&#8249;</button>
+
+      <!-- PARTNER 1 -->
+      <div class="partner-slide active">
+        <a href="https://www.forrester.com/bold/" target="_blank" rel="noopener">
+          <img src="images/forrester.png" class="partner-logo-img" alt="Forrester">
+        </a>
+        <p>Forrester es una de las firmas de investigación y asesoría más influyentes del mundo. Ayudamos a los líderes empresariales y tecnológicos a utilizar la obsesión por el cliente para acelerar el crecimiento. Servimos a las funciones que deben trabajar juntas para hacer de la obsesión por el cliente una realidad: tecnología, marketing, experiencia del cliente, digital, producto y ventas.</p>
+        <p>Fundada en 1983, Forrester ha crecido hasta contar con más de 1,700 empleados, incluidos analistas y consultores de renombre mundial que atienden a clientes en más de 100 países.</p>
+      </div>
+
+      <!-- PARTNER 2 (ejemplo — edita o elimina) -->
+      <!-- <div class="partner-slide">
+        <div class="partner-logo-name">PARTNER 2</div>
+        <p>Descripción del partner 2...</p>
+      </div> -->
+
+      <button class="slider-btn next" onclick="moveSlide(1)" aria-label="Siguiente">&#8250;</button>
+      <div class="slider-dots" id="sliderDots">
+        <button class="dot active" onclick="goToSlide(0)"></button>
+        <!-- Los dots adicionales se generan automáticamente con JS -->
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CLIENTES (SECCIÓN NUEVA)
+     EDITAR: Reemplaza cada "Cliente N" por el
+     nombre real o agrega un <img> con el logo.
+     Ejemplo con logo:
+       <div class="client-card">
+         <img src="images/cliente-falabella.png" alt="Falabella">
+       </div>
+═══════════════════════════════════════════ -->
+<section id="clients">
+  <div class="container">
+    <h2 class="section-title">Con quien he colaborado</h2>
+    <div class="clients-grid">
+
+      <div class="client-card"><img src="images/papajohns.png" alt="Papa John's"></div>
+      <div class="client-card"><img src="images/lapolar.png" alt="La Polar"></div>
+      <div class="client-card"><img src="images/paris.png" alt="Paris"></div>
+      <div class="client-card"><img src="images/johnson.png" alt="Johnson"></div>
+      <div class="client-card"><img src="images/easy.png" alt="Easy"></div>
+      <div class="client-card"><img src="images/falabella.png" alt="Falabella"></div>
+      <div class="client-card"><img src="images/sodimac.png" alt="Sodimac"></div>
+      <div class="client-card"><img src="images/cajalosandes.png" alt="Caja Los Andes"></div>
+      <div class="client-card"><img src="images/pelp.png" alt="PELP"></div>
+      <div class="client-card"><img src="images/beflow.png" alt="Beflow"></div>
+      <div class="client-card"><img src="images/Saville.png" alt="Saville Row"></div>
+      <div class="client-card"><img src="images/dimaplac.png" alt="Dimaplac"></div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACTO
+     EDITAR: Para recibir emails, crea una cuenta
+     gratuita en formspree.io y reemplaza
+     YOUR_FORM_ID por tu ID real.
+═══════════════════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-lead">
+      <h2>Un consultor experto en tecnología es tu aliado estratégico en la travesía digital de tu negocio</h2>
+    </div>
+
+    <div class="contact-form-box">
+      <h3>CONTACTO</h3>
+      <!-- Reemplaza YOUR_FORM_ID con el ID de formspree.io -->
+      <form id="contactForm" action="https://formspree.io/f/xnjyokkp" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto</label>
+            <input type="text" id="asunto" name="asunto" placeholder="Asunto del mensaje" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje aquí..." required></textarea>
+          </div>
+        </div>
+        <div class="form-footer">
+          <p id="formMsg">¡Gracias por tu mensaje!</p>
+          <button type="submit" class="btn btn-green">Enviar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     EDITAR: Datos de contacto de la empresa
+═══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-info">
+    <p>Sokai SpA</p>
+    <p>Santiago, Chile</p>
+    <p>Mail: rodrigo.cortes@sokai.cl</p>
+    <p>Tel: +569 6193 1408</p>
+  </div>
+
+  <!-- Logo cerebro repetido -->
+  <img src="images/sokai.png" alt="SOKAI" width="58" height="58">
+
+  <p class="footer-copy">© 2025 Sokai SpA · Todos los derechos reservados</p>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+/* ── Forzar inicio en el header al cargar ── */
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+if (window.location.hash) {
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+}
+window.scrollTo(0, 0);
+
+/* ── Menú móvil ── */
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+});
+
+/* ── Canvas de partículas (Hero) ── */
+(function () {
+  var canvas = document.getElementById('heroCanvas');
+  var ctx    = canvas.getContext('2d');
+  var nodes  = [];
+  var N = 65, MAX = 145;
+
+  function resize() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  function init() {
+    nodes = [];
+    for (var i = 0; i < N; i++) {
+      nodes.push({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        r:  Math.random() * 2 + 0.8
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
+      if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      ctx.fill();
+    }
+    for (var i = 0; i < nodes.length - 1; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var dx = nodes[i].x - nodes[j].x;
+        var dy = nodes[i].y - nodes[j].y;
+        var d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < MAX) {
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = 'rgba(255,255,255,' + (0.18 * (1 - d/MAX)) + ')';
+          ctx.lineWidth = 0.7;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', function() { resize(); init(); });
+  resize(); init(); draw();
+})();
+
+/* ── Carousel Partners ── */
+var slides   = document.querySelectorAll('.partner-slide');
+var dotsWrap = document.getElementById('sliderDots');
+var cur = 0;
+
+// Generar dots dinámicamente si hay más de 1 slide
+(function() {
+  if (slides.length <= 1) return;
+  dotsWrap.innerHTML = '';
+  slides.forEach(function(_, i) {
+    var btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.addEventListener('click', function() { goToSlide(i); });
+    dotsWrap.appendChild(btn);
+  });
+})();
+
+function moveSlide(dir) {
+  goToSlide((cur + dir + slides.length) % slides.length);
+}
+
+function goToSlide(idx) {
+  var dots = dotsWrap.querySelectorAll('.dot');
+  slides[cur].classList.remove('active');
+  if (dots[cur]) dots[cur].classList.remove('active');
+  cur = idx;
+  slides[cur].classList.add('active');
+  if (dots[cur]) dots[cur].classList.add('active');
+}
+
+/* ── Formulario de contacto (Formspree AJAX) ── */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var form = this;
+  var msg  = document.getElementById('formMsg');
+
+  // Si el action aún tiene YOUR_FORM_ID, avisa en consola
+  if (form.action.includes('YOUR_FORM_ID')) {
+    msg.textContent = 'Configura tu ID de Formspree para enviar mensajes.';
+    msg.style.color = '#f97316';
+    msg.style.display = 'block';
+    return;
+  }
+
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(function(r) {
+    if (r.ok) {
+      msg.textContent = '¡Gracias por tu mensaje!';
+      msg.style.color = '#b5d134';
+      msg.style.display = 'block';
+      form.reset();
+    } else {
+      msg.textContent = 'Error al enviar. Intenta de nuevo.';
+      msg.style.color = '#f97316';
+      msg.style.display = 'block';
+    }
+  }).catch(function() {
+    msg.textContent = 'Error de red. Intenta de nuevo.';
+    msg.style.color = '#f97316';
+    msg.style.display = 'block';
+  });
+});
+</script>
+
+</body>
+</html>
